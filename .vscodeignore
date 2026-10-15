@@ -1,0 +1,10 @@
+src/**
+node_modules/**
+**/*.map
+tsconfig.json
+.vscode/**
+.github/**
+*.vsix
+.gitignore
+opus55/**
+sol61/**

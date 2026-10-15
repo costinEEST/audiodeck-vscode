@@ -1,0 +1,235 @@
+{
+  "name": "audio-deck",
+  "displayName": "AudioDeck",
+  "description": "Local audio playlists inside VS Code.",
+  "version": "0.3.0",
+  "publisher": "costinEEST",
+  "author": "costinEEST",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/costinEEST/audio-player-vscode"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "audio",
+    "mp3",
+    "player",
+    "playlist",
+    "language learning"
+  ],
+  "icon": "media/icon.png",
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "extensionKind": [
+    "ui"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "audioDeck",
+          "title": "AudioDeck",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "audioDeck": [
+        {
+          "type": "webview",
+          "id": "audioDeck.view",
+          "name": "Player",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "audioDeck.addFiles",
+        "title": "Add Files…",
+        "category": "AudioDeck",
+        "icon": "$(add)"
+      },
+      {
+        "command": "audioDeck.addFolder",
+        "title": "Add Folder…",
+        "category": "AudioDeck",
+        "icon": "$(folder-opened)"
+      },
+      {
+        "command": "audioDeck.addFromExplorer",
+        "title": "Add to AudioDeck",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.playFromExplorer",
+        "title": "Play in AudioDeck",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.clear",
+        "title": "Clear Playlist",
+        "category": "AudioDeck",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "audioDeck.togglePlay",
+        "title": "Play / Pause",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.next",
+        "title": "Next Track",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.prev",
+        "title": "Previous Track",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.back",
+        "title": "Skip Back",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.forward",
+        "title": "Skip Forward",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.speedUp",
+        "title": "Speed Up",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.speedDown",
+        "title": "Slow Down",
+        "category": "AudioDeck"
+      },
+      {
+        "command": "audioDeck.loopAB",
+        "title": "Set A–B Loop Point",
+        "category": "AudioDeck"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "audioDeck.addFiles",
+          "when": "view == audioDeck.view",
+          "group": "navigation@1"
+        },
+        {
+          "command": "audioDeck.addFolder",
+          "when": "view == audioDeck.view",
+          "group": "navigation@2"
+        },
+        {
+          "command": "audioDeck.clear",
+          "when": "view == audioDeck.view",
+          "group": "navigation@3"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "audioDeck.playFromExplorer",
+          "when": "explorerResourceIsFolder || resourceExtname =~ /^\\.(mp3|wav|ogg|oga|opus|flac|m4a|aac|webm)$/i",
+          "group": "navigation@90"
+        },
+        {
+          "command": "audioDeck.addFromExplorer",
+          "when": "explorerResourceIsFolder || resourceExtname =~ /^\\.(mp3|wav|ogg|oga|opus|flac|m4a|aac|webm)$/i",
+          "group": "navigation@91"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "audioDeck.addFromExplorer",
+          "when": "false"
+        },
+        {
+          "command": "audioDeck.playFromExplorer",
+          "when": "false"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "audioDeck.togglePlay",
+        "key": "ctrl+alt+space"
+      },
+      {
+        "command": "audioDeck.back",
+        "key": "ctrl+alt+left"
+      },
+      {
+        "command": "audioDeck.forward",
+        "key": "ctrl+alt+right"
+      },
+      {
+        "command": "audioDeck.prev",
+        "key": "ctrl+alt+,"
+      },
+      {
+        "command": "audioDeck.next",
+        "key": "ctrl+alt+."
+      },
+      {
+        "command": "audioDeck.speedDown",
+        "key": "ctrl+alt+["
+      },
+      {
+        "command": "audioDeck.speedUp",
+        "key": "ctrl+alt+]"
+      },
+      {
+        "command": "audioDeck.loopAB",
+        "key": "ctrl+alt+l"
+      }
+    ],
+    "configuration": {
+      "title": "AudioDeck",
+      "properties": {
+        "audioDeck.skipSeconds": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 60,
+          "description": "Seconds to jump with the skip back / skip forward buttons and shortcuts."
+        },
+        "audioDeck.resumePosition": {
+          "type": "boolean",
+          "default": true,
+          "description": "Resume each recording where you stopped listening last time."
+        },
+        "audioDeck.statusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the current track and a play/pause button in the status bar."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "lint": "oxlint src media/player.js",
+    "check": "npm run lint && npm run compile && node --check media/player.js",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --no-dependencies",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^4.0.0",
+    "oxlint": "^1.88.0",
+    "typescript": "^5.4.0"
+  }
+}
